@@ -1,0 +1,16 @@
+.button {
+    -fx-background-color: white;
+    -fx-font-color: black;
+    -fx-font-size: 16px;
+
+    -fx-border-width: 2px;
+    -fx-border-style: solid;
+    -fx-border-color:  #4CAF50;
+    -fx-border-radius: 6px;
+}
+
+.button:hover {
+    -fx-color: white;
+    -fx-border-radius: 6px;
+    -fx-background-color: #4CAF50; /* Green */
+}
