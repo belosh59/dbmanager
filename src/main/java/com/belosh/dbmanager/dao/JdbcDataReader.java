@@ -1,65 +1,95 @@
 package com.belosh.dbmanager.dao;
 
+import com.belosh.dbmanager.ServiceLocator;
+import com.belosh.dbmanager.dao.mapper.DataMapper;
+import com.belosh.dbmanager.dao.mapper.UserTablesMapper;
+import com.belosh.dbmanager.enity.DataVO;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.plugin.dom.exception.InvalidStateException;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Properties;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JdbcDataReader {
     private final Logger log = LoggerFactory.getLogger(getClass());
+    private final DataMapper DATA_MAPPER = new DataMapper();
+    private static final String USER_TABLES_SQL = "SELECT table_name FROM information_schema.tables WHERE table_schema='public'";
+    private static final UserTablesMapper USER_TABLES_MAPPER = new UserTablesMapper();
 
-    private Connection connection;
-    private Properties properties;
+    private DataSource dataSource;
 
-    public JdbcDataReader(Properties properties) {
-        this.properties = properties;
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
-    public ResultSet getResultSet(String sql) throws SQLException {
-        Connection connection = getConnection();
-
-        log.info("Getting Result Set as per the query: {}", sql);
-        if (sql.toLowerCase().startsWith("select")) {
-            return connection.createStatement().executeQuery(sql);
-        } else {
-            throw new RuntimeException("Unable to get result set from query: " + sql);
+    public List<DataVO> executeStatements(String sql) {
+        long startExecution = System.currentTimeMillis();
+        if (dataSource == null) {
+            throw new IllegalStateException("Connection is not established. Please connect to database.");
         }
 
-    }
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
 
-    public int execute(String sql) throws SQLException {
-        log.info("Getting result set as per the query: {}", sql);
-        return connection.createStatement().executeUpdate(sql);
-    }
+            List<DataVO> dataVOList = new ArrayList<>();
 
-    private Connection connect() throws SQLException {
-        String dbUrl = properties.getProperty("db.url");
-        String dbUser = properties.getProperty("db.user");
-        String dbPassword = properties.getProperty("db.password");
-        String dbDriverClass = properties.getProperty("db.driver");
-        String dbConnectionProperties = properties.getProperty("db.property");
+            boolean hasResults = statement.execute(sql);
+            int updateCount = statement.getUpdateCount();
+            while (hasResults || updateCount != -1) {
+                long startQueryExecution = System.currentTimeMillis();
+                DataVO dataVO;
+                if (hasResults) {
+                    try (ResultSet resultSet = statement.getResultSet()) {
+                        dataVO = DATA_MAPPER.mapRow(resultSet);
+                        dataVO.setUpdatable(false);
+                        dataVO.setChangesCount(dataVO.getRows().size());
+                    }
+                } else {
+                    dataVO = new DataVO();
+                    dataVO.setUpdatable(true);
+                    dataVO.setChangesCount(updateCount);
+                }
+                dataVO.setExecutionTime(System.currentTimeMillis() - startQueryExecution);
+                dataVOList.add(dataVO);
 
+                hasResults = statement.getMoreResults(); // Implicitly close any active result set, do I need to close it above?
+                updateCount = statement.getUpdateCount();
+            }
 
-        BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setUrl(dbUrl);
-        dataSource.setUsername(dbUser);
-        dataSource.setPassword(dbPassword);
-        dataSource.setDriverClassName(dbDriverClass);
-        dataSource.setConnectionProperties(dbConnectionProperties);
+            log.info("Requested statement executed: {} in {} ms", sql, System.currentTimeMillis() - startExecution);
+            return dataVOList;
 
-        connection = dataSource.getConnection();
-        return connection;
-    }
-
-    private Connection getConnection() {
-        try {
-            return connection != null && !connection.isClosed() ? connection : connect();
         } catch (SQLException e) {
-            throw new RuntimeException("Unable to get connection", e);
+            String message = "Unable to execute query: " + sql + " due to " + e.getMessage();
+            log.error(message, e);
+            throw new RuntimeException(message, e);
         }
     }
+
+    public void checkConnection() {
+        try {
+            dataSource.getConnection();
+            log.info("Connected to specified database via provided datasource");
+        } catch (SQLException e) {
+            throw new InvalidStateException("Unable to connect to database via provided datasource");
+        }
+    }
+
+    public List<String> getUserTables() {
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(USER_TABLES_SQL)) {
+            return USER_TABLES_MAPPER.mapRow(resultSet);
+        } catch (SQLException e) {
+            throw new InvalidStateException("Unable to get user tables");
+        }
+    }
+
 }

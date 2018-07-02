@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="sidebar" prefHeight="580.0" prefWidth="261.0" styleClass="sidebar" stylesheets="@../css/stylehseet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.belosh.dbmanager.controller.SidebarController">
+   <children>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <ImageView fitHeight="107.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../media/databases.png" />
+               </image>
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </ImageView>
+            <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="95.0" prefWidth="124.0" styleClass="lbl-light" text="Database Manager" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="Calibri Bold" size="24.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <VBox.margin>
+            <Insets left="5.0" />
+         </VBox.margin>
+         <padding>
+            <Insets bottom="20.0" top="20.0" />
+         </padding>
+      </HBox>
+      <JFXButton onAction="#addNewDatabase" prefHeight="43.0" styleClass="sidebar-btn">
+         <graphic>
+            <HBox fx:id="addDatabaseButton" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="202.0">
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+               <children>
+                  <FontAwesomeIcon iconName="PLUS" size="1.5em" styleClass="sidebar-btn-icon" />
+                  <Label text="NEW DATABASE" textFill="#b8b1b1">
+                     <font>
+                        <Font name="Consolas Bold" size="13.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="15.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+         </graphic>
+      </JFXButton>
+      <JFXButton onAction="#openSQL" styleClass="sidebar-btn">
+         <graphic>
+            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="200.0">
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+               <children>
+                  <FontAwesomeIcon iconName="SEARCH" size="1.5em" styleClass="sidebar-btn-icon" text="" />
+                  <Label text="OPEN SQL" textFill="#b8b1b1">
+                     <font>
+                        <Font name="Consolas Bold" size="13.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="15.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+         </graphic>
+      </JFXButton>
+      <JFXButton onAction="#saveSQL" styleClass="sidebar-btn">
+         <graphic>
+            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="200.0">
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+               <children>
+                  <FontAwesomeIcon iconName="SAVE" size="1.5em" styleClass="sidebar-btn-icon" />
+                  <Label text="SAVE SQL" textFill="#b8b1b1">
+                     <font>
+                        <Font name="Consolas Bold" size="13.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="15.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+         </graphic>
+      </JFXButton>
+      <JFXButton styleClass="sidebar-btn">
+         <graphic>
+            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="200.0">
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+               <children>
+                  <FontAwesomeIcon iconName="COG" size="1.5em" styleClass="sidebar-btn-icon" />
+                  <Label text="PREFERENCES" textFill="#b8b1b1">
+                     <font>
+                        <Font name="Consolas Bold" size="13.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="15.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+         </graphic>
+      </JFXButton>
+      <JFXButton styleClass="sidebar-btn">
+         <graphic>
+            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="200.0">
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+               <children>
+                  <FontAwesomeIcon iconName="STAR" size="1.5em" styleClass="sidebar-btn-icon" />
+                  <Label styleClass="sidebar-btn" text="ABOUT" textFill="#b8b1b1">
+                     <font>
+                        <Font name="Consolas Bold" size="13.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="15.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+         </graphic>
+      </JFXButton>
+   </children>
+</VBox>

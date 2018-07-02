@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="content_area" prefHeight="580.0" prefWidth="774.0" stylesheets="@../css/stylehseet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.belosh.dbmanager.controller.ContentAreaController">
+    <children>
+      <HBox fx:id="menubar" alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="774.0" style="-fx-background-color: #fff; -fx-border-color: #cccccc; -fx-border-width: 0px 0px 1px 0px;" stylesheets="@../css/stylehseet.css">
+         <children>
+            <JFXButton alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#open_sidebar" prefHeight="50.0" prefWidth="50.0" ripplerFill="WHITE" styleClass="menu-bar-btns">
+               <graphic>
+                  <FontAwesomeIcon iconName="TH_LIST" size="2em" styleClass="menu-bar-btns-icon" />
+               </graphic>
+            </JFXButton>
+            <HBox alignment="CENTER" prefHeight="54.0" prefWidth="765.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label fx:id="connectedAsLabel" alignment="CENTER" text="Not connected">
+                     <font>
+                        <Font name="Calibri" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+         <VBox.margin>
+            <Insets bottom="2.0" />
+         </VBox.margin>
+      </HBox>
+      <SplitPane dividerPositions="0.27461139896373055" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+         <items>
+            <TreeView fx:id="databaseTree" onMouseClicked="#connectDatabase" prefHeight="421.0" prefWidth="176.0" />
+            <SplitPane dividerPositions="0.5" orientation="VERTICAL">
+               <items>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                          <HBox maxHeight="50.0" prefHeight="22.0" prefWidth="557.0">
+                              <VBox.margin>
+                                  <Insets />
+                              </VBox.margin>
+                           <children>
+                              <JFXButton fx:id="cutJFXButton" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#cutStatement" prefHeight="30.0" prefWidth="30.0" ripplerFill="WHITE" styleClass="content-area-circle-btns">
+                                 <graphic>
+                                    <FontAwesomeIcon iconName="CUT" size="2em" styleClass="content-area-circle-btns-icon" />
+                                 </graphic>
+                                 <tooltip>
+                                    <Tooltip text="Paste SQL from Clipboard" />
+                                 </tooltip>
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </JFXButton>
+                              <JFXButton fx:id="pasteJFXButton" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#pasteStatement" prefHeight="30.0" prefWidth="30.0" ripplerFill="WHITE" styleClass="content-area-circle-btns">
+                                 <graphic>
+                                    <FontAwesomeIcon iconName="PASTE" size="2em" styleClass="content-area-circle-btns-icon" />
+                                 </graphic>
+                                 <tooltip>
+                                    <Tooltip text="Paste SQL from Clipboard" />
+                                 </tooltip>
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </JFXButton>
+                              <JFXButton fx:id="copyJFXButton" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#copyStatement" prefHeight="30.0" prefWidth="30.0" ripplerFill="WHITE" styleClass="content-area-circle-btns">
+                                 <graphic>
+                                    <FontAwesomeIcon iconName="COPY" size="2em" styleClass="content-area-circle-btns-icon" />
+                                 </graphic>
+                                 <tooltip>
+                                    <Tooltip text="Copy SQL to Clipboard" />
+                                 </tooltip>
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </JFXButton>
+                              <Separator orientation="VERTICAL" prefHeight="200.0" />
+                              <JFXButton fx:id="executeJFXButton" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#executeStatement" prefHeight="30.0" prefWidth="30.0" ripplerFill="WHITE" styleClass="content-area-circle-btns">
+                                 <graphic>
+                                    <FontAwesomeIcon iconName="BOLT" size="2em" styleClass="content-area-circle-btns-icon" />
+                                 </graphic>
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                                 <tooltip>
+                                    <Tooltip text="Execute Statement" />
+                                 </tooltip>
+                              </JFXButton>
+                              <ProgressIndicator fx:id="progressIndicator" prefHeight="40.0" prefWidth="29.0">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </ProgressIndicator>
+                              <Label fx:id="executedTime" prefHeight="30.0" prefWidth="257.0">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Calibri" size="14.0" />
+                                 </font></Label>
+                           </children>
+                          </HBox>
+                        <TextArea fx:id="sqlTextArea" onDragDropped="#sqlTextAreaDragDropped" onDragOver="#sqlTextAreaDragOver" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font name="Leelawadee UI" size="15.0" />
+                           </font></TextArea>
+                     </children>
+                  </VBox>
+                  <StackPane fx:id="stackPane" prefHeight="150.0" prefWidth="200.0" />
+               </items>
+            </SplitPane>
+         </items>
+      </SplitPane>
+    </children>
+</VBox>

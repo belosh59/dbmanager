@@ -1,0 +1,107 @@
+/* SIDEBAR MENU */
+
+.sidebar{
+    -fx-background-color: rgb(58,69,88);
+}
+.sidebar-user-btn{
+    -fx-background-color: transparent;
+    -fx-background-radius: 0px;
+    -fx-text-fill: #b8b1b1;
+}
+
+.sidebar-btn{
+    -fx-background-color: transparent;
+    -fx-background-radius: 0px;
+    -fx-text-fill: #b8b1b1;
+}
+.sidebar-btn:hover{
+    -fx-background-color: transparent;
+    -fx-background-radius: 0px;
+    -fx-text-fill: #b8b1b1;
+    -fx-border-color: rgb(22,169,250);
+    -fx-border-width: 0px 0px 0px 3px;
+}
+
+.sidebar-btn:pressed .label{
+    -fx-background-color: transparent;
+    -fx-background-radius: 0px;
+    -fx-text-fill: #0099ff;
+}
+.sidebar-btn:pressed .sidebar-btn-icon{
+    -fx-fill: #0099ff;
+}
+.sidebar-btn-icon{
+    -fx-fill: #b8b1b1;
+}
+
+/* MAIN CONTENT AREA */
+
+.menu-bar-btns{
+    -fx-background-color: #fff;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 0px 0px 0px 1px;
+}
+.menu-bar-btns:hover{
+    -fx-background-color: #0099ff;
+}
+.menu-bar-btns-icon{
+    -fx-fill: #999;
+}
+.menu-bar-btns:hover .menu-bar-btns-icon{
+    -fx-fill: #fff;
+}
+
+.content-area-circle-btns{
+    -fx-background-color: #fff;
+    -fx-background-radius: 100px;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 100%;
+}
+.content-area-circle-btns:hover{
+    -fx-background-color: #0099ff;
+    -fx-background-radius: 100px;
+    -fx-text-fill: #fff;
+}
+.content-area-circle-btns-icon{
+    -fx-fill: #b8b1b1;
+}
+.content-area-circle-btns:hover .content-area-circle-btns-icon{
+    -fx-fill: #fff;
+}
+.lbl-light{
+    -fx-text-fill: #b8b1b1;
+}
+
+
+/* TABS */
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+}
+
+.tab-pane
+{
+    -fx-tab-min-width:90px;
+}
+
+.tab{
+    -fx-background-insets: 0 1 0 1,0,0;
+}
+.tab-pane .tab{
+    -fx-background-color: #e6e6e6;
+}
+
+.tab-pane .tab:selected{
+    -fx-background-color: #0099ff
+}
+
+.tab .tab-label { 
+    -fx-alignment: CENTER;
+    -fx-text-fill: #828282;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.tab:selected .tab-label { 
+    -fx-alignment: CENTER;
+    -fx-text-fill: #fff;
+}

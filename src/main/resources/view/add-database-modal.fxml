@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="328.0" prefWidth="404.0" style="-fx-background-color: #eff4ff;" stylesheets="@../css/stylehseet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.belosh.dbmanager.controller.AddDatabaseController">
+   <children>
+      <TextField fx:id="newDbHost" layoutX="165.0" layoutY="31.0" prefHeight="25.0" prefWidth="207.0" promptText="Host" />
+      <TextField fx:id="newDbDatabase" layoutX="165.0" layoutY="73.0" prefHeight="25.0" prefWidth="207.0" promptText="Database" />
+      <TextField fx:id="newDbPort" layoutX="165.0" layoutY="114.0" prefHeight="25.0" prefWidth="207.0" promptText="Port" />
+      <TextField fx:id="newDbUser" layoutX="106.0" layoutY="172.0" prefHeight="25.0" prefWidth="192.0" promptText="User" />
+      <TextField fx:id="newDbPassword" layoutX="106.0" layoutY="222.0" prefHeight="25.0" prefWidth="192.0" promptText="Password" />
+      <JFXButton fx:id="create" layoutX="52.0" layoutY="270.0" onAction="#createDatabase" ripplerFill="WHITE" styleClass="sidebar-btn" text="CREATE" textAlignment="CENTER">
+         <graphic>
+            <FontAwesomeIcon iconName="CHECK" size="1.5em" styleClass="sidebar-btn-icon" />
+         </graphic>
+         <font>
+            <Font name="Calibri Bold" size="17.0" />
+         </font>
+      </JFXButton>
+      <ImageView fitHeight="119.0" fitWidth="108.0" layoutX="36.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../media/add_database.png" />
+         </image>
+      </ImageView>
+      <JFXButton fx:id="cancel" layoutX="252.0" layoutY="270.0" onAction="#exitModal" ripplerFill="WHITE" styleClass="sidebar-btn" text="CLOSE" textAlignment="CENTER">
+         <graphic>
+            <FontAwesomeIcon iconName="TIMES" size="1.5em" styleClass="sidebar-btn-icon" />
+         </graphic>
+         <font>
+            <Font name="Calibri Bold" size="17.0" />
+         </font>
+      </JFXButton>
+   </children>
+</AnchorPane>
