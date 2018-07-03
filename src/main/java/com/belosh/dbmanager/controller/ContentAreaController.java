@@ -56,8 +56,9 @@ public class ContentAreaController implements Initializable {
         contentInitializer.initDatabaseTree();
 
         progressIndicator.setVisible(false);
-        //sqlTextArea.setVisible(false);
         sqlTextArea.textProperty().bindBidirectional(contentInitializer.getSqlAreaTextProperty());
+        initAccelerators();
+
     }
 
     @FXML
@@ -86,15 +87,18 @@ public class ContentAreaController implements Initializable {
             Parent parent = contentInitializer.getTabPane(dataVOList, sqlStatement);
             stackPane.getChildren().add(parent);
             executedTime.setText("Overall timeout: " + task.getExecutionTime() + " ms.");
+            log.info("JdbcDataReadTask has been successfully executed for statement: " + sqlStatement);
         });
 
         task.addEventHandler(WorkerStateEvent.WORKER_STATE_FAILED, event1 -> {
             String errorMessage = event1.getSource().getException().getMessage();
             Label errorLabel = new Label(errorMessage);
+            errorLabel.setId("errorLabel");
             errorLabel.setTextFill(Color.RED);
             errorLabel.setWrapText(true);
             errorLabel.autosize();
             stackPane.getChildren().add(errorLabel);
+            log.error(errorMessage);
         });
 
         new Thread(task).start();
@@ -165,50 +169,51 @@ public class ContentAreaController implements Initializable {
     @FXML
     private void connectDatabase(MouseEvent event) {
         TreeItem<String> item = databaseTree.getSelectionModel().getSelectedItem();
-        boolean isDatabase = item.getParent() != null && item.getParent().getParent() == null;
-        boolean isPrimaryDoubleClick = event.getClickCount() == 2 && event.getButton() == MouseButton.PRIMARY;
+        if (item != null) {
 
-        if(isPrimaryDoubleClick && isDatabase) {
-            String databaseName = item.getValue();
-            try {
-                databaseService.setUpDataSource(databaseName);
-                connectedAsLabel.setText("Connected to: " + databaseName);
-                sqlTextArea.setVisible(true);
+            boolean isDatabase = item.getParent() != null && item.getParent().getParent() == null;
+            boolean isPrimaryDoubleClick = event.getClickCount() == 2 && event.getButton() == MouseButton.PRIMARY;
 
-                FontAwesomeIcon tableIcon = new FontAwesomeIcon();
-                tableIcon.setIcon(FontAwesomeIconName.TABLE);
+            if (isPrimaryDoubleClick && isDatabase) {
+                String databaseName = item.getValue();
+                try {
+                    databaseService.setUpDataSource(databaseName);
+                    connectedAsLabel.setText("Connected to: " + databaseName);
+                    sqlTextArea.setVisible(true);
 
-                TreeItem<String> tables = new TreeItem<>("Tables", tableIcon);
-                tables.setExpanded(true);
+                    FontAwesomeIcon tableIcon = new FontAwesomeIcon();
+                    tableIcon.setIcon(FontAwesomeIconName.TABLE);
 
-                List<String> userTables = databaseService.getUserTables();
-                for (String userTable : userTables) {
-                    TreeItem<String> table = new TreeItem<>(userTable);
-                    tables.getChildren().add(table);
+                    TreeItem<String> tables = new TreeItem<>("Tables", tableIcon);
+                    tables.setExpanded(true);
+
+                    List<String> userTables = databaseService.getUserTables();
+                    for (String userTable : userTables) {
+                        TreeItem<String> table = new TreeItem<>(userTable);
+                        tables.getChildren().add(table);
+                    }
+
+                    item.getChildren().add(tables);
+                    item.setExpanded(true);
+                } catch (InvalidStateException e) {
+                    connectedAsLabel.setText("Unable to connect to: " + databaseName + ". Check database configuration");
                 }
 
-                item.getChildren().add(tables);
-            } catch (InvalidStateException e) {
-                connectedAsLabel.setText("Unable to connect to: " + databaseName + ". Check database configuration");
             }
-            item.setExpanded(true);
         }
     }
 
 
     private void initAccelerators() {
-//        executeJFXButton.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-//            if (event.getCode()== KeyCode.F5) {
-//                executeStatement(new ActionEvent());
-//            }
-//        });
-
-//        Scene scene = executeJFXButton.getScene();
-//
-//        executeJFXButton.getScene().getAccelerators().put(
-//                new KeyCodeCombination(KeyCode.F5),
-//                () -> executeJFXButton.fire()
-//        );
+        executeJFXButton.sceneProperty().addListener((observableScene, oldScene, newScene) -> {
+            if (oldScene == null && newScene != null) {
+                newScene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+                    if (event.getCode()== KeyCode.F5) {
+                        executeStatement(new ActionEvent());
+                    }
+                });
+            }
+        });
     }
 
 }

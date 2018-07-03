@@ -1,10 +1,8 @@
 package com.belosh.dbmanager.dao;
 
-import com.belosh.dbmanager.ServiceLocator;
 import com.belosh.dbmanager.dao.mapper.DataMapper;
 import com.belosh.dbmanager.dao.mapper.UserTablesMapper;
 import com.belosh.dbmanager.enity.DataVO;
-import org.apache.commons.dbcp.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.plugin.dom.exception.InvalidStateException;
@@ -78,6 +76,7 @@ public class JdbcDataReader {
             dataSource.getConnection();
             log.info("Connected to specified database via provided datasource");
         } catch (SQLException e) {
+            log.error("Unable to connect to database via provided datasource");
             throw new InvalidStateException("Unable to connect to database via provided datasource");
         }
     }

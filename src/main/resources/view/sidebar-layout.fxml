@@ -121,7 +121,7 @@
             </HBox>
          </graphic>
       </JFXButton>
-      <JFXButton styleClass="sidebar-btn">
+      <JFXButton onAction="#openAbout" styleClass="sidebar-btn">
          <graphic>
             <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="200.0">
                <padding>

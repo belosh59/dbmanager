@@ -47,8 +47,8 @@ public class SidebarController implements Initializable {
         stage.setScene(addDatabaseModal);
         stage.setTitle("New Database configuration");
         stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(((Node) event.getSource()).getScene().getWindow());
         stage.initStyle(StageStyle.UNDECORATED);
-        stage.initOwner(((Node)event.getSource()).getScene().getWindow());
         stage.showAndWait();
     }
 
@@ -103,5 +103,23 @@ public class SidebarController implements Initializable {
                 throw new RuntimeException("Unable to write to file in filesystem");
             }
         }
+    }
+
+    @FXML
+    void openAbout(ActionEvent event) {
+        Scene aboutModal = ServiceLocator.get("aboutModal", Scene.class);
+
+        Stage stage = new Stage();
+        stage.setScene(aboutModal);
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initStyle(StageStyle.UNDECORATED);
+
+        stage.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
+            if (! isNowFocused) {
+                stage.close();
+            }
+        });
+
+        stage.showAndWait();
     }
 }

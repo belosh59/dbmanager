@@ -8,13 +8,28 @@ public class DatabaseTreeCellImpl extends TreeCell<String> {
     private ContextMenu addMenu = new ContextMenu();
 
     public DatabaseTreeCellImpl(DatabaseService databaseService) {
-        MenuItem addMenuItem = new MenuItem("Remove");
-        addMenu.getItems().add(addMenuItem);
-        addMenuItem.setOnAction(t -> {
+        MenuItem remove = new MenuItem("Remove");
+        addMenu.getItems().add(remove);
+        remove.setOnAction(t -> {
             TreeItem<String> item = getTreeItem().getParent();
             item.getChildren().remove(getTreeItem());
             databaseService.removeDatabaseConfigurationByName(getTreeItem().getValue());
         });
+
+        //TODO: Under design
+//        MenuItem change = new MenuItem("Change");
+//        addMenu.getItems().add(change);
+//        change.setOnAction(t -> {
+//            Scene addDatabaseModal = ServiceLocator.get("addDatabaseModal", Scene.class);
+//
+//            Stage stage = new Stage();
+//            stage.setScene(addDatabaseModal);
+//            stage.setTitle("Change Database configuration for: " + getString());
+//            stage.initModality(Modality.WINDOW_MODAL);
+//            stage.initStyle(StageStyle.UNDECORATED);
+//            stage.showAndWait();
+//        });
+
     }
 
     @Override

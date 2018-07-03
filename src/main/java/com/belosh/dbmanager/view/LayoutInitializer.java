@@ -14,10 +14,14 @@ import java.net.URL;
 public class LayoutInitializer {
 
     public void initLayouts() {
+
+        String aboutModal = "view/about-modal.fxml";
+        Scene aboutScene = new Scene(getLayout(aboutModal));
+        ServiceLocator.register("aboutModal", aboutScene);
+
         String addDatabaseModal = "view/add-database-modal.fxml";
-        AnchorPane anchorPane = getLayout(addDatabaseModal);
-        Scene scene = new Scene(anchorPane);
-        ServiceLocator.register("addDatabaseModal", scene);
+        Scene addDatabaseScene = new Scene(getLayout(addDatabaseModal));
+        ServiceLocator.register("addDatabaseModal", addDatabaseScene);
 
         String sideBarLayout = "view/sidebar-layout.fxml";
         Parent parent = getLayout(sideBarLayout);

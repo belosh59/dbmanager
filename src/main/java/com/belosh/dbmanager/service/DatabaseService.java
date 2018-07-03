@@ -21,13 +21,17 @@ public class DatabaseService {
     private static final String DATABASE_PROPERTIES = "ssl=true;sslfactory=org.postgresql.ssl.NonValidatingFactory";
     private JdbcDataReader jdbcDataReader = ServiceLocator.get(JdbcDataReader.class.toString(), JdbcDataReader.class);
 
-    private static final String DATABASE_CONFIG_PATH = "/database.json";
-    private static final File configFile = new File(System.getProperty("user.dir") + DATABASE_CONFIG_PATH);
+    private File configFile = null;
+
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private static final List<Database> databases = new ArrayList<>();
 
 
     public List<Database> getConfiguredDatabses() {
+        if (configFile == null) {
+            throw new IllegalStateException("Database configuration file has not been configured");
+        }
+
         try {
             if (configFile.createNewFile()) {
                 log.warn("Database config file missed and was created");
@@ -85,7 +89,7 @@ public class DatabaseService {
         return jdbcDataReader.getUserTables();
     }
 
-    private Database getDatabaseByName(String databaseName) {
+    Database getDatabaseByName(String databaseName) {
         for (Database database : databases) {
             if (database.getDatabaseName().equals(databaseName)) {
                 return database;
@@ -94,12 +98,16 @@ public class DatabaseService {
         throw new RuntimeException("Requested database was not found: " + databaseName);
     }
 
-    private void updateDatabaseConfigurationFile() {
+    void updateDatabaseConfigurationFile() {
         try {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(configFile, databases);
         } catch (IOException e) {
             log.error("Unable to save properties to database configuration file", e);
             throw new RuntimeException(e);
         }
+    }
+
+    public void setConfigFile(File configFile) {
+        this.configFile = configFile;
     }
 }

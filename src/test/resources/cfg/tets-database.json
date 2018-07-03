@@ -1,0 +1,19 @@
+[ {
+  "host" : "ec2-54-228-181-43.eu-west-1.compute.amazonaws.com",
+  "databaseName" : "ddgka22qpukhek",
+  "port" : "5432",
+  "user" : "lwfxcrodtnmevh",
+  "password" : "41ecd9b37c4db5ac5b881dc4a6eca737f4a335f1fa1ab4e3dc4292eb7d4882e3"
+}, {
+  "host" : "ec2-54-247-125-137.eu-west-1.compute.amazonaws.com",
+  "databaseName" : "d3n2i90vr7qpeg",
+  "port" : "5432",
+  "user" : "ojzdpxsxypoket",
+  "password" : "f5bfab965fda8984c533f4a543a183d1530bfc7a3ec341b79a8fb106c746c9c8"
+}, {
+  "host" : "dummy",
+  "databaseName" : "dummy",
+  "port" : "dummy",
+  "user" : "dummy",
+  "password" : "dummy"
+} ]

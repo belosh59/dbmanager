@@ -1,8 +1,11 @@
 package com.belosh.dbmanager.util
 
 import org.junit.Assert
+import org.junit.Test
 
-class RegexpParserTest extends GroovyTestCase {
+class RegexpParserTest {
+
+    @Test
     void testSplitSemicolon() {
         String sql = "select * from users;\n   select genre.id + '.,;' from genre;select * from t;       "
 

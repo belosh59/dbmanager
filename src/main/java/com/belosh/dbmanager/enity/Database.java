@@ -27,8 +27,8 @@ public class Database {
         return port;
     }
 
-    public void setPort(String properties) {
-        this.port = properties;
+    public void setPort(String port) {
+        this.port = port;
     }
 
     public String getUser() {

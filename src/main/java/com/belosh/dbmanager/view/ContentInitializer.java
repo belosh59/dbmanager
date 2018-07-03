@@ -24,8 +24,58 @@ public class ContentInitializer {
     private SimpleObjectProperty<String> sqlAreaTextProperty = new SimpleObjectProperty<>("");
     private DatabaseService databaseService = ServiceLocator.get(DatabaseService.class.toString(), DatabaseService.class);
 
+    public Parent getTabPane(List<DataVO> dataVOList, String statement) {
+        TabPane tabPane = new TabPane();
+        tabPane.setId("queryResultTabPane");
+        ObservableList<Tab> tabs = tabPane.getTabs();
 
-    public Parent buildTable(DataVO dataVO)  {
+        String[] statements = RegexpParser.splitSemicolon(statement);
+        for (int i = 0; i < dataVOList.size(); i++) {
+            DataVO dataVO = dataVOList.get(i);
+            String currentStatement = statements[i];
+
+            Parent tabContent = (dataVO.isUpdatable()) ? getResponseLabel(currentStatement) : buildTable(dataVO);
+            VBox.setVgrow(tabContent, Priority.ALWAYS);
+            Label status = new Label(String.format("Affected Rows: %d. Executed in: %d ms.", dataVO.getChangesCount(), dataVO.getExecutionTime()));
+
+            VBox vBox = new VBox(tabContent, status);
+            Tab tab = new Tab(currentStatement, vBox);
+            tabs.add(tab);
+        }
+        return tabPane;
+    }
+
+    private Parent getResponseLabel(String statement) {
+        Label label = new Label(String.format("Statement: %s successfully executed", statement));
+        return new StackPane(label);
+    }
+
+    public void initDatabaseTree() {
+        TreeItem<String> treeRoot = treeRootProperty.get();
+        treeRoot.setExpanded(true);
+        treeRoot.getChildren().clear();
+
+        List<Database> databases = databaseService.getConfiguredDatabses();
+
+        for (Database database: databases) {
+            FontAwesomeIcon databaseIcon = new FontAwesomeIcon();
+            databaseIcon.setIcon(FontAwesomeIconName.DATABASE);
+
+            TreeItem<String> databaseItem = new TreeItem<> (database.getDatabaseName(), databaseIcon);
+
+            treeRoot.getChildren().add(databaseItem);
+        }
+    }
+
+    public SimpleObjectProperty<TreeItem<String>> getTreeRootProperty() {
+        return treeRootProperty;
+    }
+
+    public SimpleObjectProperty<String> getSqlAreaTextProperty() {
+        return sqlAreaTextProperty;
+    }
+
+    private Parent buildTable(DataVO dataVO)  {
         log.info("Start enriching table with ResultSet dataVO");
 
         TableView<ObservableList<String>> tableView = new TableView<>();
@@ -48,57 +98,5 @@ public class ContentInitializer {
 
         log.info("Data table successfully enriched with dataVO");
         return tableView;
-    }
-
-    public Parent getTabPane(List<DataVO> dataVOList, String statement) {
-        TabPane tabPane = new TabPane();
-        ObservableList<Tab> tabs = tabPane.getTabs();
-
-        String[] statements = RegexpParser.splitSemicolon(statement);
-        for (int i = 0; i < dataVOList.size(); i++) {
-            DataVO dataVO = dataVOList.get(i);
-            String currentStatement = statements[i];
-
-            Parent tabContent = (dataVO.isUpdatable()) ? getResponseLabel(dataVO, currentStatement) : buildTable(dataVO);
-            VBox.setVgrow(tabContent, Priority.ALWAYS);
-            Label status = new Label(String.format("Affected Rows: %d. Executed in: %d ms.", dataVO.getChangesCount(), dataVO.getExecutionTime()));
-
-            VBox vBox = new VBox(tabContent, status);
-            Tab tab = new Tab(currentStatement, vBox);
-            tabs.add(tab);
-        }
-        return tabPane;
-    }
-
-    private Parent getResponseLabel(DataVO dataVO, String statement) {
-        Label label = new Label(String.format("Statement: %s successfully executed", statement));
-        return new StackPane(label);
-    }
-
-    public void initDatabaseTree() {
-        TreeItem<String> treeRoot = treeRootProperty.get();
-        treeRoot.setExpanded(true);
-        treeRoot.getChildren().clear();
-
-        List<Database> databases = databaseService.getConfiguredDatabses();
-
-        for (Database database: databases) {
-            FontAwesomeIcon databaseIcon = new FontAwesomeIcon();
-            databaseIcon.setIcon(FontAwesomeIconName.DATABASE);
-
-            TreeItem<String> rootItem = new TreeItem<> (database.getDatabaseName(), databaseIcon);
-
-
-
-            treeRoot.getChildren().add(rootItem);
-        }
-    }
-
-    public SimpleObjectProperty<TreeItem<String>> getTreeRootProperty() {
-        return treeRootProperty;
-    }
-
-    public SimpleObjectProperty<String> getSqlAreaTextProperty() {
-        return sqlAreaTextProperty;
     }
 }
