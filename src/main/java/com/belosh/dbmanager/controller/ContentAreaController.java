@@ -31,7 +31,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.plugin.dom.exception.InvalidStateException;
 
 import java.io.File;
 import java.io.IOException;
@@ -256,7 +255,7 @@ public class ContentAreaController implements Initializable {
                     connectedAsLabel.setText("Connected to: " + databaseName);
 
                     setupDatabaseObjectItems(selectedDatabase);
-                } catch (InvalidStateException e) {
+                } catch (IllegalStateException e) {
                     String error = "Unable to connect to: " + databaseName + ". Check database configuration";
                     log.error(error);
                     connectedAsLabel.setText(error);

@@ -5,7 +5,6 @@ import com.belosh.dbmanager.dao.mapper.impl.UserTablesMapper;
 import com.belosh.dbmanager.enity.DataVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.plugin.dom.exception.InvalidStateException;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -71,23 +70,13 @@ public class JdbcDataReader {
         }
     }
 
-    public void checkConnection() {
-        try {
-            dataSource.getConnection();
-            log.info("Connected to specified database via provided datasource");
-        } catch (SQLException e) {
-            log.error("Unable to connect to database via provided datasource");
-            throw new InvalidStateException("Unable to connect to database via provided datasource");
-        }
-    }
-
     public List<String> getUserTables() {
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(USER_TABLES_SQL)) {
             return USER_TABLES_MAPPER.mapRow(resultSet);
         } catch (SQLException e) {
-            throw new InvalidStateException("Unable to get user tables");
+            throw new RuntimeException("Unable to get user tables");
         }
     }
 

@@ -76,9 +76,9 @@ public class DatabaseService {
         dataSource.setPassword(requiredDatabase.getPassword());
         dataSource.setDriverClassName(DATABASE_DRIVER);
         dataSource.setConnectionProperties(DATABASE_PROPERTIES);
+        dataSource.setMinIdle(1);
 
         jdbcDataReader.setDataSource(dataSource);
-        jdbcDataReader.checkConnection();
         log.info("New datasource configured for database: " + databaseName);
     }
 

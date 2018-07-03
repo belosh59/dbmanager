@@ -8,7 +8,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
-import sun.plugin.dom.exception.InvalidStateException
 
 class DatabaseServiceITest {
     private DatabaseService databaseService
