@@ -5,7 +5,7 @@ import javafx.scene.control.*;
 
 
 public class DatabaseTreeCellImpl extends TreeCell<String> {
-    private ContextMenu addMenu = new ContextMenu();
+    private final ContextMenu addMenu = new ContextMenu();
 
     public DatabaseTreeCellImpl(DatabaseService databaseService) {
         MenuItem remove = new MenuItem("Remove");

@@ -77,7 +77,7 @@ class DatabaseServiceITest {
     }
 
     @Rule
-    public ExpectedException expectedEx = ExpectedException.none();
+    public ExpectedException expectedEx = ExpectedException.none()
 
     /**
      * Below test case cover transitively methods:
@@ -91,8 +91,8 @@ class DatabaseServiceITest {
         Assert.assertEquals(3, tables.size())
 
 
-        expectedEx.expect(RuntimeException.class);
-        expectedEx.expectMessage("Requested database was not found: wrong-database");
+        expectedEx.expect(RuntimeException.class)
+        expectedEx.expectMessage("Requested database was not found: wrong-database")
         // Negative case
         databaseService.setUpDataSource("wrong-database")
 

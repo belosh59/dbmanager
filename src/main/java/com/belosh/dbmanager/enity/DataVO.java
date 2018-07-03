@@ -48,4 +48,15 @@ public class DataVO {
     public void setUpdatable(boolean updatable) {
         this.updatable = updatable;
     }
+
+    @Override
+    public String toString() {
+        return "DataVO{" +
+                "columns=" + columns +
+                ", rows=" + rows +
+                ", changesCount=" + changesCount +
+                ", executionTime=" + executionTime +
+                ", updatable=" + updatable +
+                '}';
+    }
 }

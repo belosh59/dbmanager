@@ -42,6 +42,14 @@
             <version>9.1-901-1.jdbc4</version>
         </dependency>
 
+        <!-- Export -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.17</version>
+        </dependency>
+
+
         <!-- View -->
         <dependency>
             <groupId>com.jfoenix</groupId>

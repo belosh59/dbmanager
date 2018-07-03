@@ -1,5 +1,6 @@
-package com.belosh.dbmanager.dao.mapper;
+package com.belosh.dbmanager.dao.mapper.impl;
 
+import com.belosh.dbmanager.dao.mapper.RowMapper;
 import com.belosh.dbmanager.enity.DataVO;
 
 import java.sql.ResultSet;

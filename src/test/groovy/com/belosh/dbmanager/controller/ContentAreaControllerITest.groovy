@@ -26,14 +26,6 @@ import static org.testfx.matcher.control.LabeledMatchers.*
 
 class ContentAreaControllerITest extends ApplicationTest {
 
-//    @Override
-//    void start(Stage stage) throws Exception {
-//        DependencyManager dependencyManager = new DependencyManager()
-//        dependencyManager.setUp()
-//
-//        Starter starter = new Starter()
-//        starter.start(stage)
-//    }
     @Before
     void setup() {
         // Setup dependencies
@@ -47,7 +39,6 @@ class ContentAreaControllerITest extends ApplicationTest {
     @Test
     void notConnectedLabel() {
         clickOn("#executeJFXButton")
-//        verifyThat("#databaseTree", )
         verifyThat("#errorLabel", hasText("Connection is not established. Please connect to database."))
         verifyThat("#errorLabel", ColorMatchers.isColor(Color.RED))
     }
@@ -74,7 +65,7 @@ class ContentAreaControllerITest extends ApplicationTest {
 
         robot.lookup("#queryResultTabPane").tryQuery().isPresent()
         //WaitForAsyncUtils.waitFor(
-        Thread.sleep(2000);
+        Thread.sleep(2000)
         // Aserting 2 tabs after multiple statement query
         Assert.assertEquals(2, lookup("#queryResultTabPane").queryAs(TabPane.class).getTabs().size())
     }

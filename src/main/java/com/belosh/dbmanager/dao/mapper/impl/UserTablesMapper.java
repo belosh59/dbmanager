@@ -1,4 +1,6 @@
-package com.belosh.dbmanager.dao.mapper;
+package com.belosh.dbmanager.dao.mapper.impl;
+
+import com.belosh.dbmanager.dao.mapper.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

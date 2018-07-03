@@ -2,12 +2,14 @@ package com.belosh.dbmanager.controller;
 
 import com.belosh.dbmanager.ServiceLocator;
 import com.belosh.dbmanager.view.ContentInitializer;
-import com.belosh.dbmanager.view.LayoutInitializer;
+import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -15,7 +17,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -26,17 +27,13 @@ import java.nio.file.Files;
 import java.util.ResourceBundle;
 
 public class SidebarController implements Initializable {
-    private ContentInitializer contentInitializer = ServiceLocator.get(ContentInitializer.class.toString(), ContentInitializer.class);
+    private final ContentInitializer contentInitializer = ServiceLocator.get(ContentInitializer.class.toString(), ContentInitializer.class);
 
-    @FXML
-    private VBox sidebar;
-
-    @FXML
-    private HBox addDatabaseButton;
+    @FXML private VBox sidebar;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        initAccelerators();
     }
 
     @FXML
@@ -121,5 +118,19 @@ public class SidebarController implements Initializable {
         });
 
         stage.showAndWait();
+    }
+
+    private void initAccelerators() {
+        ReadOnlyObjectProperty<Scene> sceneReadOnlyObjectProperty = sidebar.sceneProperty();
+
+        sceneReadOnlyObjectProperty.addListener((observableScene, oldScene, newScene) -> {
+            if (oldScene == null && newScene != null) {
+                newScene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+                    if (event.getCode()== KeyCode.F1) {
+                        openAbout(new ActionEvent());
+                    }
+                });
+            }
+        });
     }
 }

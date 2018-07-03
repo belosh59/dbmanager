@@ -8,15 +8,19 @@ import com.jfoenix.controls.JFXButton;
 import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AddDatabaseController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class AddDatabaseController implements Initializable {
     private final Logger log = LoggerFactory.getLogger(getClass());
-    private ContentInitializer contentInitializer = ServiceLocator.get(ContentInitializer.class.toString(), ContentInitializer.class);
-    private DatabaseService databaseService = ServiceLocator.get(DatabaseService.class.toString(), DatabaseService.class);
+    private final ContentInitializer contentInitializer = ServiceLocator.get(ContentInitializer.class.toString(), ContentInitializer.class);
+    private final DatabaseService databaseService = ServiceLocator.get(DatabaseService.class.toString(), DatabaseService.class);
 
     @FXML private TextField newDbHost;
     @FXML private TextField newDbDatabase;
@@ -25,6 +29,27 @@ public class AddDatabaseController {
     @FXML private TextField newDbPassword;
     @FXML private JFXButton create;
     @FXML private JFXButton cancel;
+
+    @FXML
+    public void initialize(URL url, ResourceBundle rb) {
+        create.disableProperty().bind(new BooleanBinding() {
+            {
+                super.bind(newDbHost.textProperty(),
+                        newDbDatabase.textProperty(),
+                        newDbUser.textProperty(),
+                        newDbPassword.textProperty());
+            }
+
+            @Override
+            protected boolean computeValue() {
+                return (newDbHost.getText().isEmpty()
+                        || newDbDatabase.getText().isEmpty()
+                        || newDbUser.getText().isEmpty()
+                        || newDbPassword.getText().isEmpty());
+
+            }
+        });
+    }
 
     @FXML
     void createDatabase(ActionEvent event) {
@@ -53,27 +78,4 @@ public class AddDatabaseController {
         Stage stage = (Stage) cancel.getScene().getWindow();
         stage.close();
     }
-
-    @FXML
-    void initialize() {
-        create.disableProperty().bind(new BooleanBinding() {
-            {
-                super.bind(newDbHost.textProperty(),
-                        newDbDatabase.textProperty(),
-                        newDbUser.textProperty(),
-                        newDbPassword.textProperty());
-            }
-
-            @Override
-            protected boolean computeValue() {
-                return (newDbHost.getText().isEmpty()
-                        || newDbDatabase.getText().isEmpty()
-                        || newDbUser.getText().isEmpty()
-                        || newDbPassword.getText().isEmpty());
-
-            }
-        });
-    }
-
-
 }

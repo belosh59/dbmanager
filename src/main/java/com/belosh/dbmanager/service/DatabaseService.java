@@ -19,13 +19,12 @@ public class DatabaseService {
 
     private static final String DATABASE_DRIVER = "org.postgresql.ds.PGPoolingDataSource";
     private static final String DATABASE_PROPERTIES = "ssl=true;sslfactory=org.postgresql.ssl.NonValidatingFactory";
-    private JdbcDataReader jdbcDataReader = ServiceLocator.get(JdbcDataReader.class.toString(), JdbcDataReader.class);
+    private final JdbcDataReader jdbcDataReader = ServiceLocator.get(JdbcDataReader.class.toString(), JdbcDataReader.class);
 
     private File configFile = null;
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
-    private static final List<Database> databases = new ArrayList<>();
-
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final List<Database> databases = new ArrayList<>();
 
     public List<Database> getConfiguredDatabses() {
         if (configFile == null) {
@@ -64,14 +63,12 @@ public class DatabaseService {
 
         Database requiredDatabase = getDatabaseByName(databaseName);
 
-        StringBuilder builder = new StringBuilder("jdbc:postgresql://")
-                .append(requiredDatabase.getHost())
-                .append(":")
-                .append(requiredDatabase.getPort())
-                .append("/")
-                .append(requiredDatabase.getDatabaseName());
-
-        String databaseUrl = builder.toString();
+        String databaseUrl = "jdbc:postgresql://" +
+                requiredDatabase.getHost() +
+                ":" +
+                requiredDatabase.getPort() +
+                "/" +
+                requiredDatabase.getDatabaseName();
 
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setUrl(databaseUrl);
@@ -89,7 +86,7 @@ public class DatabaseService {
         return jdbcDataReader.getUserTables();
     }
 
-    Database getDatabaseByName(String databaseName) {
+    private Database getDatabaseByName(String databaseName) {
         for (Database database : databases) {
             if (database.getDatabaseName().equals(databaseName)) {
                 return database;
@@ -98,7 +95,7 @@ public class DatabaseService {
         throw new RuntimeException("Requested database was not found: " + databaseName);
     }
 
-    void updateDatabaseConfigurationFile() {
+    private void updateDatabaseConfigurationFile() {
         try {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(configFile, databases);
         } catch (IOException e) {

@@ -2,7 +2,6 @@ package com.belosh.dbmanager.dao
 
 import com.belosh.dbmanager.ServiceLocator
 import com.belosh.dbmanager.enity.DataVO
-import com.belosh.dbmanager.service.DatabaseService
 import org.apache.commons.dbcp.BasicDataSource
 import org.junit.Assert
 import org.junit.Before
@@ -11,15 +10,15 @@ import org.junit.Test
 import javax.sql.DataSource
 
 class JdbcDataReaderFTest {
-    private static final String DATABASE_DRIVER = "org.postgresql.ds.PGPoolingDataSource";
-    private static final String DATABASE_PROPERTIES = "ssl=true;sslfactory=org.postgresql.ssl.NonValidatingFactory";
+    private static final String DATABASE_DRIVER = "org.postgresql.ds.PGPoolingDataSource"
+    private static final String DATABASE_PROPERTIES = "ssl=true;sslfactory=org.postgresql.ssl.NonValidatingFactory"
 
     private JdbcDataReader jdbcDataReader = new JdbcDataReader()
     private DataSource dataSource
 
     @Before
     void setup() {
-        ServiceLocator.register(JdbcDataReader.class.toString(), jdbcDataReader);
+        ServiceLocator.register(JdbcDataReader.class.toString(), jdbcDataReader)
         dataSource = new BasicDataSource()
         dataSource.setUrl("jdbc:hsqldb:mem:hsql;shutdown=true")
     }
@@ -29,9 +28,9 @@ class JdbcDataReaderFTest {
         jdbcDataReader.setDataSource(dataSource)
 
         String createTableSql = "CREATE TABLE test (id INT)"
-        List<DataVO> dataVOListcreateTable = jdbcDataReader.executeStatements(createTableSql)
-        Assert.assertEquals(1, dataVOListcreateTable.size())
-        DataVO createTableDataVO = dataVOListcreateTable.get(0)
+        List<DataVO> dataVOListCreateTable = jdbcDataReader.executeStatements(createTableSql)
+        Assert.assertEquals(1, dataVOListCreateTable.size())
+        DataVO createTableDataVO = dataVOListCreateTable.get(0)
         Assert.assertNull(createTableDataVO.getColumns())
         Assert.assertNull(createTableDataVO.getRows())
         Assert.assertEquals(0, createTableDataVO.getChangesCount())

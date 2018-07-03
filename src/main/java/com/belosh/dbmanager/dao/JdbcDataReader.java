@@ -1,7 +1,7 @@
 package com.belosh.dbmanager.dao;
 
-import com.belosh.dbmanager.dao.mapper.DataMapper;
-import com.belosh.dbmanager.dao.mapper.UserTablesMapper;
+import com.belosh.dbmanager.dao.mapper.impl.DataMapper;
+import com.belosh.dbmanager.dao.mapper.impl.UserTablesMapper;
 import com.belosh.dbmanager.enity.DataVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

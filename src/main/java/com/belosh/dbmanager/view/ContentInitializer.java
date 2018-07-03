@@ -20,9 +20,9 @@ import java.util.List;
 
 public class ContentInitializer {
     private final Logger log = LoggerFactory.getLogger(getClass());
-    private SimpleObjectProperty<TreeItem<String>> treeRootProperty = new SimpleObjectProperty<>(new TreeItem<>("Databases"));
-    private SimpleObjectProperty<String> sqlAreaTextProperty = new SimpleObjectProperty<>("");
-    private DatabaseService databaseService = ServiceLocator.get(DatabaseService.class.toString(), DatabaseService.class);
+    private final SimpleObjectProperty<TreeItem<String>> treeRootProperty = new SimpleObjectProperty<>(new TreeItem<>("Databases"));
+    private final SimpleObjectProperty<String> sqlAreaTextProperty = new SimpleObjectProperty<>("");
+    private final DatabaseService databaseService = ServiceLocator.get(DatabaseService.class.toString(), DatabaseService.class);
 
     public Parent getTabPane(List<DataVO> dataVOList, String statement) {
         TabPane tabPane = new TabPane();
@@ -36,7 +36,9 @@ public class ContentInitializer {
 
             Parent tabContent = (dataVO.isUpdatable()) ? getResponseLabel(currentStatement) : buildTable(dataVO);
             VBox.setVgrow(tabContent, Priority.ALWAYS);
-            Label status = new Label(String.format("Affected Rows: %d. Executed in: %d ms.", dataVO.getChangesCount(), dataVO.getExecutionTime()));
+
+            String message = "Affected Rows: " + dataVO.getChangesCount() + ". Executed in: " + dataVO.getExecutionTime() + " ms.";
+            Label status = new Label(message);
 
             VBox vBox = new VBox(tabContent, status);
             Tab tab = new Tab(currentStatement, vBox);
@@ -46,7 +48,8 @@ public class ContentInitializer {
     }
 
     private Parent getResponseLabel(String statement) {
-        Label label = new Label(String.format("Statement: %s successfully executed", statement));
+        String message = "Statement: " + statement + " successfully executed";
+        Label label = new Label(message);
         return new StackPane(label);
     }
 

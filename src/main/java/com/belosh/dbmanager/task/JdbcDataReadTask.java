@@ -10,7 +10,7 @@ import java.util.List;
 public class JdbcDataReadTask extends Task<List<DataVO>> {
     private final DataService dataService = ServiceLocator.get(DataService.class.toString(), DataService.class);
 
-    private String sql;
+    private final String sql;
     private long executionTime;
 
     public JdbcDataReadTask(String sql) {
