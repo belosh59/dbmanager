@@ -1,10 +1,13 @@
+# dbManager - lightweight opensource manager for interaction with database based on JavaFX.
+
+## State: active phase of development
+
 ## Features:
 
 ### Execution:
 
 - [x] Report overall time for execution
 - [x] Execution time per particular query
-- [x] RowCount per particular query
 - [x] ShortCut HotKeys. Execution via F5
 - [x] TabPane with different tabs per particular query
 - [x] ProgressIndicator running while query is executing
@@ -40,9 +43,8 @@
 * Dashboard Chart with graphics of connected sessions
 * Ensure logging work normally 
 * ProgressIndicator while connecting to another database
-
-## To be discussed:
-
-* Google Juice
+* Google Juice as a dependency container
 * Google event bus instead of mediators
-* String.format - evil or not?
+
+## Execution view. More demo screenshots: /demo
+![Alt text](demo/Multiline-statements-executed.jpg?raw=true "Multiline-statements-executed")

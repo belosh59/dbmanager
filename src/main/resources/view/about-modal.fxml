@@ -10,7 +10,7 @@
    <children>
       <ImageView fitHeight="119.0" fitWidth="108.0" layoutX="36.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../style/about3.png" />
+            <Image url="@../media/about3.png" />
          </image>
       </ImageView>
       <Label layoutX="36.0" layoutY="164.0" prefHeight="35.0" prefWidth="336.0" text="Database Maneger SNAPSHOT-0.0.1" textFill="#544f4f">
