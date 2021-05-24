@@ -1,6 +1,6 @@
 # dbManager - lightweight opensource manager for interaction with database based on JavaFX.
 
-## State: active phase of development
+## State: suspended
 
 ## Features:
 
